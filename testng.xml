@@ -7,6 +7,7 @@
 	<test name="Test">
 	<classes>
 		<class name="com.swiggy.testcases.HomePageTests"/>
+		<class name="com.swiggy.testcases.LoginPageTests"/>
 	</classes>
 	</test> 
 </suite> 

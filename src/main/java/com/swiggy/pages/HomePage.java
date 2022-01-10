@@ -1,6 +1,7 @@
 package com.swiggy.pages;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -35,6 +36,12 @@ public class HomePage
 	@FindBy(xpath="//div[text()='Enter your delivery location']")
 	WebElement divEnterLocation;
 
+	@FindBy(xpath="//a[@href='https://play.google.com/store/apps/details?id=in.swiggy.android']")
+	WebElement linkPlayStore;
+
+	@FindBy(xpath="//a[@href='https://itunes.apple.com/in/app/swiggy-food-order-delivery/id989540920']")
+	WebElement linkAppStore;
+
 
 
 	ElementUtil elementUtil;
@@ -52,7 +59,7 @@ public class HomePage
 		js=(JavascriptExecutor)baseHome.driver;
 	}
 
-	public String launchPage(String Test)
+	public String launchPage(String DeliveryLocation)
 	{
 		baseHome.launchPageCounter++;
 		testName="Launch Page";
@@ -124,25 +131,11 @@ public class HomePage
 		baseHome.tempIndex++;
 		try
 		{
-			try
-			{
-				if(divEnterLocation.isDisplayed())
-					return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
-			}
-			catch(NoSuchElementException e)
-			{
-				btnFindFood.click();
-				elementUtil.waitForElementToBeVisible(divEnterLocation);
-				if(divEnterLocation.isDisplayed())
-				{
-					baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
-				}
-				else
-				{	
-					return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
-						
-				}
-			}
+			inputDeliveryLocation.sendKeys(DeliveryLocation);
+			if(inputDeliveryLocation.getAttribute("value").equals(DeliveryLocation))
+				baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
 		}
 		catch(Exception e)
 		{
@@ -150,13 +143,74 @@ public class HomePage
 			e.printStackTrace();
 			return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
 		}
-		//Step 4
+		//Step 5
 		baseHome.tempIndex++;
 		try
 		{
-			btnLocateMe.click();
-			elementUtil.waitForAlertPresent(3000);
-			baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			js.executeScript("arguments[0].scrollIntoView();", linkPlayStore);
+			if(linkPlayStore.isDisplayed())
+				baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 6
+		baseHome.tempIndex++;
+		try
+		{
+			String windowHandle = baseHome.driver.getWindowHandle();
+			String playStoreURL=linkPlayStore.getAttribute("href");
+			linkPlayStore.click();
+			ArrayList tabs = new ArrayList (baseHome.driver.getWindowHandles());
+			baseHome.driver.switchTo().window(tabs.get(tabs.size()-1)+"");
+			if(baseHome.driver.getCurrentUrl().equals(playStoreURL) && baseHome.driver.getTitle().contains("Swiggy"))
+				baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+			baseHome.driver.close();
+			baseHome.driver.switchTo().window(windowHandle);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 7
+		baseHome.tempIndex++;
+		try
+		{
+			Thread.sleep(3000);
+			js.executeScript("arguments[0].scrollIntoView();", linkAppStore);
+			if(linkAppStore.isDisplayed())
+				baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 8
+		baseHome.tempIndex++;
+		try
+		{
+			String windowHandle = baseHome.driver.getWindowHandle();
+			linkAppStore.click();
+			ArrayList tabs = new ArrayList (baseHome.driver.getWindowHandles());
+			baseHome.driver.switchTo().window(tabs.get(tabs.size()-1)+"");
+			if(baseHome.driver.getTitle().contains("Swiggy"))
+				baseHome.pass(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+			baseHome.driver.switchTo().window(windowHandle);
 		}
 		catch(Exception e)
 		{

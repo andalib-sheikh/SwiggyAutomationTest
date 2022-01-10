@@ -26,6 +26,13 @@ public class IAnnotation implements IAnnotationTransformer
 					else
 						annotation.setEnabled(false);
 					break;
+				case "login":
+					counterColumn=1;
+					if(data[counterRow][counterColumn].toString().equalsIgnoreCase("TRUE"))
+						annotation.setEnabled(true);
+					else
+						annotation.setEnabled(false);
+					break;
 			}
 		}
 		catch(Exception e) {}

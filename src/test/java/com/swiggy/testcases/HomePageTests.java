@@ -83,13 +83,13 @@ public class HomePageTests
 	}
 	
 	@Test(priority=1,dataProvider="getLaunchPageTestData")
-	public void launchPage(String Test)
+	public void launchPage(String DeliveryLocation)
 	{
 		baseHome.totalScripts++;
 		try
 		{
 			//baseHome.driver.navigate().refresh();
-			text=homePage.launchPage(Test);
+			text=homePage.launchPage(DeliveryLocation);
 			performAfter();
 		}
 		catch(Exception e)

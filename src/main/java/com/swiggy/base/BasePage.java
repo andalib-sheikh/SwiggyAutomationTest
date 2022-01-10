@@ -57,6 +57,7 @@ public class BasePage
 	public PdfPCell cellTSR;
 	public int TSRFlag=0;
 	public static int launchPageCounter=0;
+	public static int login=0;
 
 	public BasePage(String module)
 	{
@@ -129,7 +130,7 @@ public class BasePage
 	/*public void initialization(String module)
 	{
 		this.TSRFlag=0;
-		System.setProperty("webdriver.chrome.driver", prop.getProperty("edgeDriverPath"));
+		System.setProperty("webdriver.edge.driver", prop.getProperty("edgeDriverPath"));
 		driver=new EdgeDriver();
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
@@ -226,7 +227,7 @@ public class BasePage
 		final String MERGED_PDF="SwiggyTestExecutionReport.pdf";
 		try
 		{
-			List<String> fileList=Arrays.asList("SwiggyTestExecutionReport_HomeModule.pdf");
+			List<String> fileList=Arrays.asList("SwiggyTestExecutionReport_HomeModule.pdf","SwiggyTestExecutionReport_LoginModule.pdf");
 			Document doc=new Document();
 			PdfCopy copy=new PdfCopy(doc, new FileOutputStream(MERGED_PDF));
 			doc.open();
@@ -257,7 +258,7 @@ public class BasePage
 		final String MERGED_PDF_TSR="SwiggyTestSummaryReport.pdf";
 		try
 		{
-			List<String> fileList=Arrays.asList("SwiggyTestSummaryReport_HomeModule.pdf");
+			List<String> fileList=Arrays.asList("SwiggyTestSummaryReport_HomeModule.pdf","SwiggyTestExecutionReport_LoginModule.pdf");
 			Document doc=new Document();
 			PdfCopy copy=new PdfCopy(doc, new FileOutputStream(MERGED_PDF_TSR));
 			doc.open();
