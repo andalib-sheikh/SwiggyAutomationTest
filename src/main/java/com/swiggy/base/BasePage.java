@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -128,12 +129,13 @@ public class BasePage
 	/*public void initialization(String module)
 	{
 		this.TSRFlag=0;
-		System.setProperty("webdriver.edge.driver", prop.getProperty("edgeDriverPath"));
+		System.setProperty("webdriver.chrome.driver", prop.getProperty("edgeDriverPath"));
 		driver=new EdgeDriver();
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().pageLoadTimeout(TimeOut.PAGE_LOAD_TIMEOUT,TimeUnit.SECONDS);
 		driver.get(prop.getProperty("url"));
+		
 	}*/
 	
 	// for running on SERVER

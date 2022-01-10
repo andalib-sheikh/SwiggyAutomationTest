@@ -77,7 +77,7 @@ public class HomePageTests
 		else
 		{
 			baseHome.scriptFailed++;
-			System.out.println(homePage.testName+" test case failed!");	
+			System.out.println(homePage.testName+" test case failed after step "+(baseHome.tempIndex+1));	
 		}
 		baseHome.pdfCreate.createPDF(homePage.testName,homePage.startTime+"",homePage.timestamp+"",baseHome,"Career");
 	}
