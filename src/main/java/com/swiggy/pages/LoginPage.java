@@ -127,7 +127,11 @@ public class LoginPage
 		baseHome.tempIndex++;
 		try
 		{
+			try
+			{
 			PhoneNo=PhoneNo.substring(0,PhoneNo.indexOf("."))+PhoneNo.substring(PhoneNo.indexOf(".")+1,PhoneNo.indexOf("E"));
+			}
+			catch(Exception e) {}
 			inputPhoneNo.sendKeys(PhoneNo);
 			Thread.sleep(1000);
 			if(inputPhoneNo.getAttribute("value").equals(PhoneNo))
