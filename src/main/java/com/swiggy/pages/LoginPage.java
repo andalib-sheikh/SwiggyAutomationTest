@@ -150,6 +150,7 @@ public class LoginPage
 		try
 		{
 			btnLogin.click();
+			Thread.sleep(2000);
 			elementUtil.waitForElementToBeVisible(inputOTP);
 			if(inputOTP.isDisplayed())
 			{
