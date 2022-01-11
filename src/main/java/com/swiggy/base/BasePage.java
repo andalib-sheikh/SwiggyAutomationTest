@@ -128,7 +128,7 @@ public class BasePage
 	}
 	
 	// for running on LOCAL
-	public void initialization(String module)
+	/*public void initialization(String module)
 	{
 		this.TSRFlag=0;
 		System.setProperty("webdriver.edge.driver", prop.getProperty("edgeDriverPath"));
@@ -138,10 +138,10 @@ public class BasePage
 		driver.manage().timeouts().pageLoadTimeout(TimeOut.PAGE_LOAD_TIMEOUT,TimeUnit.SECONDS);
 		driver.get(prop.getProperty("url"));
 		
-	}
+	}*/
 	
 	// for running on SERVER
-	/*public void initialization(String module) throws MalformedURLException
+	public void initialization(String module) throws MalformedURLException
 	{
 		this.TSRFlag=0;
 		MutableCapabilities sauceOptions = new MutableCapabilities();
@@ -164,7 +164,7 @@ public class BasePage
 		driver.manage().timeouts().implicitlyWait(TimeOut.IMPLICIT_WAIT, TimeUnit.SECONDS);
 		driver.navigate().to(prop.getProperty("url"));
 		pdfCreate=new PDFCreate();
-	}*/
+	}
 	
 	// Method for initializing variables and setting pdf headings
 	public void initVars(String testName)
