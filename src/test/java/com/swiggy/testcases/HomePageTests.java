@@ -97,6 +97,22 @@ public class HomePageTests
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	@Test(priority=2,dataProvider="getAddToCartTestData")
+	public void addToCart(String DeliveryLocation,String Dish)
+	{
+		baseHome.totalScripts++;
+		try
+		{
+			//baseHome.driver.navigate().refresh();
+			text=homePage.addToCart(DeliveryLocation, Dish);
+			performAfter();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 
 	@DataProvider
 	public static Object[][] getLaunchPageTestData()
@@ -104,4 +120,12 @@ public class HomePageTests
 		Object data[][]=ReadExcel.getTestData("LaunchPage");
 		return data;
 	}
+	
+	@DataProvider
+	public static Object[][] getAddToCartTestData()
+	{
+		Object data[][]=ReadExcel.getTestData("AddToCart");
+		return data;
+	}
+
 }

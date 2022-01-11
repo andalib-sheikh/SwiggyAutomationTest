@@ -1,13 +1,19 @@
 package com.swiggy.pages;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.swiggy.base.BasePage;
 import com.swiggy.utils.ElementUtil;
@@ -41,6 +47,34 @@ public class HomePage
 
 	@FindBy(xpath="//a[@href='https://itunes.apple.com/in/app/swiggy-food-order-delivery/id989540920']")
 	WebElement linkAppStore;
+
+	@FindBy(xpath="//span[@class='_3odgy']")
+	WebElement spanCityName;
+
+	@FindBy(xpath="//span[@class='_3HusE']")
+	WebElement spanLocationState;
+
+	@FindBy(xpath="//span[text()='Search']")
+	WebElement btnSearch;
+
+	@FindBy(xpath="//input")
+	WebElement inputSearch;
+
+	@FindBy(xpath="//button[text()='Restaurants']")
+	WebElement btnRestaurants;
+
+	@FindBy(xpath="//button[text()='Dishes']")
+	WebElement btnDishes;
+
+	@FindBy(xpath="//div[text()='ADD']")
+	WebElement btnAdd;
+
+	@FindBy(xpath="//span[text()='Add Item']")
+	WebElement btnAddItem;
+
+
+
+
 
 
 
@@ -217,6 +251,156 @@ public class HomePage
 			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
 			e.printStackTrace();
 			return baseHome.fail(testName, baseHome.launchPageCounter, baseHome.docER, baseHome.fontER);
+		}
+		text="Success";
+		return text;
+	}
+
+
+	public String addToCart(String DeliveryLocation, String Dish)
+	{
+		baseHome.addToCartCounter++;
+		testName="Add To Cart";
+		baseHome.initVars(testName);
+		//Step 1
+		try
+		{
+			elementUtil.waitForElementToBeVisible(logoSwiggy);
+			timestamp=new Timestamp(System.currentTimeMillis());
+			startTime=timestamp;
+			if(baseHome.driver.getCurrentUrl().equals(baseHome.prop.getProperty("url")) && logoSwiggy.isDisplayed())
+			{
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+			}
+			else
+			{
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			timestamp=new Timestamp(System.currentTimeMillis());
+			startTime=timestamp;
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 2
+		baseHome.tempIndex++;
+		try
+		{
+			inputDeliveryLocation.sendKeys(DeliveryLocation);
+			Thread.sleep(500);
+			inputDeliveryLocation.sendKeys(Keys.ENTER);
+			Thread.sleep(500);
+			inputDeliveryLocation.sendKeys(Keys.ENTER);
+			WebDriverWait wait=new WebDriverWait(baseHome.driver,3000);
+			wait.until(ExpectedConditions.urlContains("swiggy.com/restaurants"));
+			if(baseHome.driver.getCurrentUrl().contains("swiggy.com/restaurants"))
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 3
+		baseHome.tempIndex++;
+		try
+		{
+			String location=spanCityName.getText()+" "+spanLocationState.getText();
+			String temp=DeliveryLocation.split(",")[0];
+			if(location.contains(temp))
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 4
+		baseHome.tempIndex++;
+		try
+		{
+			btnSearch.click();
+			WebDriverWait wait=new WebDriverWait(baseHome.driver,3000);
+			wait.until(ExpectedConditions.urlContains("swiggy.com/search"));
+			baseHome.driver.manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
+			if(inputSearch.isDisplayed())
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 5
+		baseHome.tempIndex++;
+		try
+		{
+			inputSearch.sendKeys(Dish);
+			baseHome.driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
+			inputSearch.sendKeys(Keys.ENTER);
+			baseHome.driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1000));
+			elementUtil.waitForElementToBeVisible(btnRestaurants);
+			if(baseHome.driver.getCurrentUrl().contains(Dish) && btnRestaurants.isDisplayed())
+			{
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			}	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 6
+		baseHome.tempIndex++;
+		try
+		{
+			btnDishes.click();
+			elementUtil.waitForElementToBeVisible(btnAdd);
+			btnAdd.click();
+			baseHome.driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+			if(baseHome.driver.findElement(By.xpath("//div[contains(text(),'Customize')]")).isDisplayed())
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		//Step 7
+		baseHome.tempIndex++;
+		try
+		{
+			btnAddItem.click();
+			elementUtil.waitForElementToBeVisible(baseHome.driver.findElement(By.xpath("//span[@class='_2vS77']")));
+			WebElement element=baseHome.driver.findElement(By.xpath("//span[@class='_2vS77']"));
+			if(element.isDisplayed())
+				baseHome.pass(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);	
+			else
+				return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception in "+testName+" test case at Step "+(baseHome.tempIndex+1)+". Details: "+e.getMessage());
+			e.printStackTrace();
+			return baseHome.fail(testName, baseHome.addToCartCounter, baseHome.docER, baseHome.fontER);
 		}
 		text="Success";
 		return text;
